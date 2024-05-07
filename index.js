@@ -3,10 +3,10 @@ const pg = require('pg')
 
 // Function to generate SVG Data Based on User Input and Gives a Choice of Different Shapes Data That Will Be Outputted in the Newly Created SVG File.
 function generateSVG(data) {
-    let menuOptions;
-    switch (data.employeeMenu) {
+    let menuOption;
+    switch (data.options) {
         case 'View All Employees':
-            shapeSVG = new shapes.Circle(data.title, data.titleColor, data.shapeColor).renderSVG();
+            menuOption = new option.Circle(data.title, data.titleColor, data.shapeColor).renderSVG();
             // break;
         case 'Add Employee':
             shapeSVG = new shapes.Triangle(data.title, data.titleColor, data.shapeColor).renderSVG();
@@ -34,43 +34,30 @@ function generateSVG(data) {
             // break;
     }
     return shapeSVG;
+}
 
 // Prompt For an Array of Questions For Menu Options/Directory
 const questions = [
     {
         type: 'list',
-        name: 'employeeMenu',
+        name: 'menu',
         message: 'What would you like to do?',
-        choices: ['View All Employees', 'Add Employee', 'Update Employee Role', 'View All Roles', 'Add Role', 'View All Departments', 'Add Department', 'Quit'],
-        prefix: '\n'
-        validate: function(input) {
-            if (a)
-        }
+        choices: [
+        'View All Employees',
+        'Add Employee',
+        'Update Employee Role',
+        'View All Roles',
+        'Add Role',
+        'View All Departments',
+        'Add Department',
+        'Quit',
+        new inquirer.Separator(),
+    ],
+        // prefix: '\n'
     },
-    {
-        type: 'list',
-        name: 'titleColor',
-        message: 'What color do you want the title to be?',
-        choices: ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'Black'],
-        prefix: '\n'
-    },
-    {
-        type: 'list',
-        name: 'shape',
-        message: 'What shape do you want to choose',
-        choices: ['Square', 'Circle', 'Triangle'],
-    },
-    {
-        type: 'list',
-        name: 'shapeColor',
-        message: 'What color do you want the shape to be?',
-        choices: ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'Black'],
-        prefix: '\n'
-    }
 ];
 
-inquirer
-    .prompt(questions)
+inquirer.prompt(questions)
     .then(answers => {
         console.log('Answers:', answers);
         const shapeSVG = generateSVG(answers);
@@ -87,4 +74,4 @@ inquirer
     })
     .catch((err) => {
         console.error('Error:', err);
-    });
+    })
