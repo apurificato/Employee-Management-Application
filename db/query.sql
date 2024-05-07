@@ -9,4 +9,4 @@
 --     FROM employees
 --     RIGHT JOIN roles
 --     ON employees.role_id = roles.id
-    -- WHERE courses.id = 2;
+--     WHERE courses.id = 2;
