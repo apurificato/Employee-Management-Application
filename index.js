@@ -2,6 +2,7 @@ const inquirer = require('inquirer');
 const pool = require('./db/client');
 const colors = require('colors')
 const figlet = require('figlet');
+require('console.table')
 
 // Function to handle viewing all employees
 async function viewAllEmployees() {
