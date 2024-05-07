@@ -1,12 +1,15 @@
 const inquirer = require('inquirer');
 const pg = require('pg')
 
+const { Department, Employee, Role } = require('./models')
+
+
 // Function to generate SVG Data Based on User Input and Gives a Choice of Different Shapes Data That Will Be Outputted in the Newly Created SVG File.
-function generateSVG(data) {
+function displayMenuOptions(data) {
     let menuOption;
     switch (data.options) {
         case 'View All Employees':
-            menuOption = new option.Circle(data.title, data.titleColor, data.shapeColor).renderSVG();
+            menuOption = new option.Department(data.title, data.titleColor, data.shapeColor).renderSVG();
             // break;
         case 'Add Employee':
             shapeSVG = new shapes.Triangle(data.title, data.titleColor, data.shapeColor).renderSVG();

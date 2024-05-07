@@ -25,6 +25,6 @@ CREATE TABLE employee (
     last_name VARCHAR(30) NOT NULL,
     role_id INT NOT NULL, -- gotta see if this is INT or INTEGER bc homework says INTEGER
     manager_id INT NOT NULL,
-    FOREIGN KEY (employe_id)
+    FOREIGN KEY (manager_id)
         REFERENCES employee(id)
 );
