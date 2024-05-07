@@ -1,46 +1,163 @@
 const inquirer = require('inquirer');
-const pg = require('pg')
+const pool = require('./db/client');
 
-const { Department, Employee, Role } = require('./models')
-
-
-// You might want to use a separate file that contains functions for performing specific SQL queries youll need to use. A constructor function or class could be helpful for organizing these. You might also want to include a seeds.sql file to pre-populate your database, making the development of individual features much easier.
-
-
-// Function to generate SVG Data Based on User Input and Gives a Choice of Different Shapes Data That Will Be Outputted in the Newly Created SVG File.
-function displayMenuOptions(data) {
-    let menuOption;
-    switch (data.options) {
-        case 'View All Employees':
-            menuOption = new option.Department(data.title, data.titleColor, data.shapeColor).renderSVG();
-            // break;
-        case 'Add Employee':
-            shapeSVG = new shapes.Triangle(data.title, data.titleColor, data.shapeColor).renderSVG();
-            // break;
-        case 'Update Employee Role':
-            shapeSVG = new shapes.Square(data.title, data.titleColor, data.shapeColor).renderSVG();
-            // break;
-        case 'View All Roles':
-            shapeSVG = new shapes.Square(data.title, data.titleColor, data.shapeColor).renderSVG();
-            // break;
-        case 'Add Role':
-            shapeSVG = new shapes.Square(data.title, data.titleColor, data.shapeColor).renderSVG();
-            // break;
-        case 'View All Departments':
-            shapeSVG = new shapes.Square(data.title, data.titleColor, data.shapeColor).renderSVG();
-            // break;
-        case 'Add Department':
-            shapeSVG = new shapes.Square(data.title, data.titleColor, data.shapeColor).renderSVG();
-            // break;
-        case 'Quit':
-            shapeSVG = new shapes.Square(data.title, data.titleColor, data.shapeColor).renderSVG();
-            // break;
-        default:
-            shapeSVG = 'View All Departments';
-            // break;
-    }
-    return shapeSVG;
+// Function to handle viewing all employees
+async function viewAllEmployees() {
+  try {
+    const result = await pool.query('SELECT * FROM employees');
+    console.table(result.rows);
+  } catch (error) {
+    console.error('Error viewing employees:', error);
+  }
 }
+
+// Function to handle adding an employee
+async function addEmployee() {
+    try {
+      const employeeData = await inquirer.prompt([
+        {
+          type: 'input',
+          name: 'firstName',
+          message: "Enter the employee's first name:",
+        },
+        {
+          type: 'input',
+          name: 'lastName',
+          message: "Enter the employee's last name:",
+        }
+        // Add other prompts for employee details as needed
+      ]);
+  
+      // Once you have the employee data, insert it into the database
+      await pool.query(
+        'INSERT INTO employees (first_name, last_name) VALUES ($1, $2)',
+        [employeeData.firstName, employeeData.lastName]
+      );
+  
+      console.log('Employee added successfully!');
+    } catch (error) {
+      console.error('Error adding employee:', error);
+    }
+  }  
+
+// Function to handle updating an employee's role
+async function updateEmployeeRole() {
+    try {
+      // Fetch all employees to display as choices
+      const employees = await pool.query('SELECT * FROM employee');
+      const employeeChoices = employees.rows.map(employee => ({
+        name: `${employee.first_name} ${employee.last_name}`,
+        value: employee.id
+      }));
+  
+      // Prompt the user to select an employee to update
+      const { employeeId } = await inquirer.prompt({
+        type: 'list',
+        name: 'employeeId',
+        message: 'Select an employee to update:',
+        choices: employeeChoices
+      });
+  
+      // Fetch all roles to display as choices
+      const roles = await pool.query('SELECT * FROM role');
+      const roleChoices = roles.rows.map(role => ({
+        name: role.title,
+        value: role.id
+      }));
+  
+      // Prompt the user to select a new role for the employee
+      const { roleId } = await inquirer.prompt({
+        type: 'list',
+        name: 'roleId',
+        message: 'Select a new role for the employee:',
+        choices: roleChoices
+      });
+  
+      // Update the employee's role in the database
+      await pool.query(
+        'UPDATE employee SET role_id = $1 WHERE id = $2',
+        [roleId, employeeId]
+      );
+  
+      console.log('Employee role updated successfully!');
+    } catch (error) {
+      console.error('Error updating employee role:', error);
+    }
+  }
+
+// Function to handle viewing all employees
+async function viewAllRoles() {
+    try {
+      const result = await pool.query('SELECT * FROM roles');
+      console.table(result.rows);
+    } catch (error) {
+      console.error('Error viewing roles:', error);
+    }
+  }
+
+// Function to handle adding an employee
+async function addRole() {
+    try {
+      const roleData = await inquirer.prompt([
+        {
+          type: 'input',
+          name: 'title',
+          message: 'Enter the role title:',
+        },
+        {
+          type: 'input',
+          name: 'salary',
+          message: 'Enter the role salary:',
+        },
+        // Add other prompts for role details as needed
+      ]);
+  
+      // Once you have the role data, insert it into the database
+      await pool.query(
+        'INSERT INTO roles (title, salary) VALUES ($1, $2)',
+        [roleData.title, roleData.salary]
+      );
+  
+      console.log('Role added successfully!');
+    } catch (error) {
+      console.error('Error adding role:', error);
+    }
+  }  
+
+// Function to handle viewing all employees
+async function viewAllDepartments() {
+    try {
+      const result = await pool.query('SELECT * FROM departments');
+      console.table(result.rows);
+    } catch (error) {
+      console.error('Error viewing departments:', error);
+    }
+  }
+  
+  // Function to handle adding an employee
+  async function addDepartment() {
+    try {
+      const departmentData = await inquirer.prompt([
+        {
+          type: 'input',
+          name: 'name',
+          message: 'Enter the department name:',
+        },
+        // Add other prompts for department details as needed
+      ]);
+  
+      // Once you have the department data, insert it into the database
+      await pool.query(
+        'INSERT INTO departments (name) VALUES ($1)',
+        [departmentData.name]
+      );
+  
+      console.log('Department added successfully!');
+    } catch (error) {
+      console.error('Error adding department:', error);
+    }
+  }  
+
 
 // Prompt For an Array of Questions For Menu Options/Directory
 const questions = [
@@ -49,35 +166,65 @@ const questions = [
         name: 'menu',
         message: 'What would you like to do?',
         choices: [
-        'View All Employees',
-        'Add Employee',
-        'Update Employee Role',
-        'View All Roles',
-        'Add Role',
-        'View All Departments',
-        'Add Department',
-        'Quit',
-        new inquirer.Separator(),
-    ],
-        // prefix: '\n'
+            'View All Employees',
+            'Add Employee',
+            'Update Employee Role',
+            'View All Roles',
+            'Add Role',
+            'View All Departments',
+            'Add Department',
+            'Quit',
+            new inquirer.Separator(),
+        ],
     },
 ];
 
+function handleChoice(choice) {
+    switch (choice) {
+        case 'View All Employees':
+            // Call function to view all employees
+            viewAllEmployees()
+            break;
+        case 'Add Employee':
+            // Call function to add an employee
+            addEmployee()
+            break;
+        case 'Update Employee Role':
+            // Call function to update employee role
+            updateEmployeeRole()
+            break;
+        case 'View All Roles':
+            // Call function to view all roles
+            viewAllRoles()
+            break;
+        case 'Add Role':
+            // Call function to add a role
+            addRole()
+            break;
+        case 'View All Departments':
+            // Call function to view all departments
+            viewAllDepartments()
+            break;
+        case 'Add Department':
+            // Call function to add a department
+            addDepartment()
+            break;
+        case 'Quit':
+            // Handle quit option
+            console.log('Goodbye!');
+            process.exit(0);
+            break;
+        default:
+            console.log('Invalid choice');
+            break;
+    }
+}
+
 inquirer.prompt(questions)
     .then(answers => {
-        console.log('Answers:', answers);
-        const shapeSVG = generateSVG(answers);
-
-        const svgCode = `
-        <svg version="1.1" width="300" height="300" xmlns="http://www.w3.org/2000/svg">
-        ${shapeSVG}
-        </svg>`;
-
-        // Writes SVG Code to a Newly Created File
-        fs.writeFileSync('./examples/logo.svg', svgCode);
-
-        console.log('Generated logo.svg file successfully!');
+        const { menu } = answers;
+        handleChoice(menu);
     })
     .catch((err) => {
         console.error('Error:', err);
-    })
+    });
