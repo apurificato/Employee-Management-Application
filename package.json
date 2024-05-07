@@ -1,0 +1,21 @@
+{
+  "name": "employee-management-application",
+  "version": "1.0.0",
+  "description": "Back-end Node.js application built using Inquirer prompt and PostgreSQL database for management of employee data.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "inquirer": "^8.2.4",
+    "pg": "^8.11.5"
+  }
+}

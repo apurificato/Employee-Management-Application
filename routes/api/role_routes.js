@@ -1,6 +1,9 @@
+const router = require('express').Router();
+const { Role } = require('../../models/');
+
 // View all roles
 app.get('/api/roles', async (request, response) => {
-    const { rows } = await client.query('SELECT * FROM roles')
+    const { rows } = await Role.query('SELECT * FROM roles')
 
     // console.log(data)
     response.json(rows)

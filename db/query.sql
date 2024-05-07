@@ -1,0 +1,12 @@
+-- UPDATE users SET password = 'newpass' WHERE id = 2;
+-- SELECT * FROM users ORDER BY id;
+
+-- SELECT
+--     employees.id AS employee_id,
+--     CONCAT(first_name, '', last_name) AS full_name,
+--         name,
+--         type
+--     FROM employees
+--     RIGHT JOIN roles
+--     ON employees.role_id = roles.id
+    -- WHERE courses.id = 2;
