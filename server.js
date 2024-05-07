@@ -10,16 +10,8 @@ const client = new Client({
     database: 'employee_management_db'
 })
 
-
-
-// Connect to the database
+// Connect to the database | start Express server
 client.connect()
     .then(() => {
-        //Start express server
         app.listen(PORT, () => console.log('Server started on port', PORT))
     })
-
-// Start express server
-// app.listen(PORT, async () => {
-//     console.log('Server started on port', PORT)
-// })
