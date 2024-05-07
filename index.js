@@ -114,7 +114,7 @@ async function updateEmployeeRole() {
     }
   }
 
-// Function to handle viewing all employees
+// Function to handle viewing all company roles
 async function viewAllRoles() {
     try {
       const result = await pool.query('SELECT * FROM role');
@@ -132,7 +132,7 @@ async function viewAllRoles() {
     }
   }
 
-// Function to handle adding an employee
+// Function to handle adding a new role
 async function addRole() {
     try {
       const roleData = await inquirer.prompt([
@@ -144,7 +144,7 @@ async function addRole() {
         {
           type: 'input',
           name: 'salary',
-          message: 'Enter the role salary:',
+          message: 'Enter the role salary (no comma):',
         },
         // Add other prompts for role details as needed
       ]);
@@ -169,7 +169,7 @@ async function addRole() {
     }
   }  
 
-// Function to handle viewing all employees
+// Function to handle viewing all departments
 async function viewAllDepartments() {
     try {
       const result = await pool.query('SELECT * FROM department');
@@ -187,7 +187,7 @@ async function viewAllDepartments() {
     }
   }
   
-  // Function to handle adding an employee
+  // Function to handle adding a Departmnet
   async function addDepartment() {
     try {
       const departmentData = await inquirer.prompt([
