@@ -4,6 +4,9 @@ const pg = require('pg')
 const { Department, Employee, Role } = require('./models')
 
 
+// You might want to use a separate file that contains functions for performing specific SQL queries youll need to use. A constructor function or class could be helpful for organizing these. You might also want to include a seeds.sql file to pre-populate your database, making the development of individual features much easier.
+
+
 // Function to generate SVG Data Based on User Input and Gives a Choice of Different Shapes Data That Will Be Outputted in the Newly Created SVG File.
 function displayMenuOptions(data) {
     let menuOption;
