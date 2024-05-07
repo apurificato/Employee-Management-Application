@@ -22,10 +22,10 @@ Employee.init(
             type: DataTypes.INTEGER,
             allowNull: false,
         },
-        employee_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        },
+        // employee_id: {
+        //     type: DataTypes.INTEGER,
+        //     allowNull: false,
+        // },
         // FOREIGN KEY REFERENCE? manager id
     },
     {

@@ -1,11 +1,21 @@
 const inquirer = require('inquirer');
 const pool = require('./db/client');
+const colors = require('colors')
+const figlet = require('figlet');
 
 // Function to handle viewing all employees
 async function viewAllEmployees() {
   try {
-    const result = await pool.query('SELECT * FROM employees');
+    const result = await pool.query('SELECT * FROM employee');
     console.table(result.rows);
+    inquirer.prompt(questions)
+    .then(answers => {
+        const { menu } = answers;
+        handleChoice(menu);
+    })
+    .catch((err) => {
+        console.error('Error:', err);
+    });
   } catch (error) {
     console.error('Error viewing employees:', error);
   }
@@ -24,19 +34,30 @@ async function addEmployee() {
           type: 'input',
           name: 'lastName',
           message: "Enter the employee's last name:",
+        },
+        {
+            type: 'input',
+            name: 'roleId',
+            message: "Enter the employee's role id #:",
         }
-        // Add other prompts for employee details as needed
       ]);
   
       // Once you have the employee data, insert it into the database
       await pool.query(
-        'INSERT INTO employees (first_name, last_name) VALUES ($1, $2)',
-        [employeeData.firstName, employeeData.lastName]
+        'INSERT INTO employee (first_name, last_name, role_id) VALUES ($1, $2, $3)',
+        [employeeData.firstName, employeeData.lastName, employeeData.roleId]
       );
-  
       console.log('Employee added successfully!');
+      inquirer.prompt(questions)
+      .then(answers => {
+          const { menu } = answers;
+          handleChoice(menu);
+      })
+      .catch((err) => {
+          console.error('Error:', err);
+      });
     } catch (error) {
-      console.error('Error adding employee:', error);
+      console.error('Error adding employee', error);
     }
   }  
 
@@ -80,6 +101,14 @@ async function updateEmployeeRole() {
       );
   
       console.log('Employee role updated successfully!');
+      inquirer.prompt(questions)
+      .then(answers => {
+          const { menu } = answers;
+          handleChoice(menu);
+      })
+      .catch((err) => {
+          console.error('Error:', err);
+      });
     } catch (error) {
       console.error('Error updating employee role:', error);
     }
@@ -88,8 +117,16 @@ async function updateEmployeeRole() {
 // Function to handle viewing all employees
 async function viewAllRoles() {
     try {
-      const result = await pool.query('SELECT * FROM roles');
+      const result = await pool.query('SELECT * FROM role');
       console.table(result.rows);
+      inquirer.prompt(questions)
+      .then(answers => {
+          const { menu } = answers;
+          handleChoice(menu);
+      })
+      .catch((err) => {
+          console.error('Error:', err);
+      });
     } catch (error) {
       console.error('Error viewing roles:', error);
     }
@@ -114,11 +151,19 @@ async function addRole() {
   
       // Once you have the role data, insert it into the database
       await pool.query(
-        'INSERT INTO roles (title, salary) VALUES ($1, $2)',
+        'INSERT INTO role (title, salary) VALUES ($1, $2)',
         [roleData.title, roleData.salary]
       );
   
       console.log('Role added successfully!');
+      inquirer.prompt(questions)
+      .then(answers => {
+          const { menu } = answers;
+          handleChoice(menu);
+      })
+      .catch((err) => {
+          console.error('Error:', err);
+      });
     } catch (error) {
       console.error('Error adding role:', error);
     }
@@ -127,8 +172,16 @@ async function addRole() {
 // Function to handle viewing all employees
 async function viewAllDepartments() {
     try {
-      const result = await pool.query('SELECT * FROM departments');
+      const result = await pool.query('SELECT * FROM department');
       console.table(result.rows);
+      inquirer.prompt(questions)
+      .then(answers => {
+          const { menu } = answers;
+          handleChoice(menu);
+      })
+      .catch((err) => {
+          console.error('Error:', err);
+      });
     } catch (error) {
       console.error('Error viewing departments:', error);
     }
@@ -148,11 +201,19 @@ async function viewAllDepartments() {
   
       // Once you have the department data, insert it into the database
       await pool.query(
-        'INSERT INTO departments (name) VALUES ($1)',
+        'INSERT INTO department (name) VALUES ($1)',
         [departmentData.name]
       );
   
       console.log('Department added successfully!');
+      inquirer.prompt(questions)
+      .then(answers => {
+          const { menu } = answers;
+          handleChoice(menu);
+      })
+      .catch((err) => {
+          console.error('Error:', err);
+      });
     } catch (error) {
       console.error('Error adding department:', error);
     }
@@ -219,6 +280,12 @@ function handleChoice(choice) {
             break;
     }
 }
+
+console.log(
+    colors.bgBlack.brightGreen(
+        figlet.textSync('Employee\nDatabase:', { horizontalLayout: 'full' })
+    )
+)
 
 inquirer.prompt(questions)
     .then(answers => {

@@ -14,7 +14,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "colors": "^1.4.0",
     "express": "^4.19.2",
+    "figlet": "^1.7.0",
     "inquirer": "^8.2.4",
     "pg": "^8.11.5"
   }
