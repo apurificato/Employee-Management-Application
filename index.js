@@ -40,13 +40,18 @@ async function addEmployee() {
             type: 'input',
             name: 'roleId',
             message: "Enter the employee's role id #:",
+        },
+        {
+            type: 'input',
+            name: 'managerId',
+            message: "Enter the employee's manager's id #:",
         }
       ]);
   
       // Once you have the employee data, insert it into the database
       await pool.query(
-        'INSERT INTO employee (first_name, last_name, role_id) VALUES ($1, $2, $3)',
-        [employeeData.firstName, employeeData.lastName, employeeData.roleId]
+        'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3)',
+        [employeeData.firstName, employeeData.lastName, employeeData.roleId, employeeData.managerId]
       );
       console.log('Employee added successfully!');
       inquirer.prompt(questions)
