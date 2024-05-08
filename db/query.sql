@@ -27,4 +27,3 @@ SELECT
             ON role.department_id = department.id
         LEFT JOIN employee manager
             ON employee.manager_id = manager.id
-    -- WHERE employee.id = 1;
