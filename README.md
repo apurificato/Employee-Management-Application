@@ -6,6 +6,10 @@ Back-end Node.js application built with Express.js, Inquirer prompt, and Postgre
 ## Description
 This back-end, simple employee database application was built fully from scratch with JavaScript and Node.js. The application uses SQL schema, seed, and query files to manually build out a database of tables. Additionally the PG node package was also used to interact with that postgreSQL database. Since this faux "employee management" database is back-end only and utilizes Node.js, it runs shell scripted commands in the terminal in order to connect to PostgreSQL database, create tables, seed those tables with data relational data, and then display all of it through user choices with the Inquirer prompt node package. All of this enables the user to connect to the database and go through parts of the CRUD (Create, Read, Update, and Delete) Process (in this case only reading, creating, and updating table data) via Node.js and the Inquirer prompt.
 
+[
+<img width="1440" alt="Employee-Database-Application-in-VSCode-Terminal-screenshot" src="https://github.com/apurificato/Employee-Management-Application/assets/161912493/9c441310-c734-4b31-b470-3744ed8e6530">
+](url)
+
 ## Project Structure
 - /db
     - schema.sql (file that creates database and databasde tables)
