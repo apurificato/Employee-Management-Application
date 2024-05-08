@@ -1,3 +1,5 @@
+USE employee_management_db;
+
 INSERT INTO department (name) VALUES
 ('Accounting'),
 ('Technology'),
@@ -17,14 +19,14 @@ INSERT INTO role (title, salary, department_id) VALUES
 ('Content Publisher', 45000.00, 4),
 ('Marketing Specialist', 45000.00, 4);
 
-INSERT INTO employee (first_name, last_name, role_id) VALUES
-('Henry', 'Chang', 1),
-('Bill', 'Sears', 2),
-('Joseph', 'Smith', 3),
-('Irene', 'Jeffries', 4),
-('Patrick', 'Star', 5),
-('Chris', 'Sherman', 6),
-('Kelly', 'Farrell', 9),
-('Sarah', 'Powers', 7),
-('Mark', 'Thompson', 8),
-('Melissa', 'Slater', 10);
+INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES
+('Henry', 'Chang', 1, 2),
+('Bill', 'Sears', 2, 8),
+('Joseph', 'Smith', 3, 6),
+('Irene', 'Jeffries', 4, 7),
+('Patrick', 'Star', 5, 8),
+('Chris', 'Sherman', 6, NULL),
+('Kelly', 'Farrell', 9, NULL),
+('Sarah', 'Powers', 7, 8),
+('Mark', 'Thompson', 8, NULL),
+('Melissa', 'Slater', 10, 7);
