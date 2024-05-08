@@ -50,7 +50,7 @@ async function addEmployee() {
   
       // Once you have the employee data, insert it into the database
       await pool.query(
-        'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3)',
+        'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ($1, $2, $3, $4)',
         [employeeData.firstName, employeeData.lastName, employeeData.roleId, employeeData.managerId]
       );
       console.log('Employee added successfully!');
@@ -152,13 +152,18 @@ async function addRole() {
           name: 'salary',
           message: 'Enter the role salary (no comma):',
         },
+        {
+          type: 'input',
+          name: 'departmentId',
+          message: "Enter the role's department id #:",
+      }
         // Add other prompts for role details as needed
       ]);
   
       // Once you have the role data, insert it into the database
       await pool.query(
-        'INSERT INTO role (title, salary) VALUES ($1, $2)',
-        [roleData.title, roleData.salary]
+        'INSERT INTO role (title, salary, department_id) VALUES ($1, $2, $3)',
+        [roleData.title, roleData.salary, roleData.departmentId]
       );
   
       console.log('Role added successfully!');
